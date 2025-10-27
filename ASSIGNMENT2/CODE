@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int m, n;
+    printf("Enter number of rows and columns: ");
+    scanf("%d %d", &m, &n);
+
+    char grid[m][n + 1]; // +1 for null terminator in each row
+    printf("Enter the grid (each row of capital letters):\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%s", grid[i]);
+    }
+
+    char word[50];
+    printf("Enter the target word: ");
+    scanf("%s", word);
+    int len = strlen(word);
+
+    int found = 0;
+
+    // Traverse each cell
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+
+            // Check horizontally (left to right)
+            if (j + len <= n) {
+                int k;
+                for (k = 0; k < len; k++) {
+                    if (grid[i][j + k] != word[k])
+                        break;
+                }
+                if (k == len) {
+                    printf("Start: (%d,%d) End: (%d,%d)\n", i + 1, j + 1, i + 1, j + len);
+                    found = 1;
+                }
+            }
+
+            // Check vertically (top to bottom)
+            if (i + len <= m) {
+                int k;
+                for (k = 0; k < len; k++) {
+                    if (grid[i + k][j] != word[k])
+                        break;
+                }
+                if (k == len) {
+                    printf("Start: (%d,%d) End: (%d,%d)\n", i + 1, j + 1, i + len, j + 1);
+                    found = 1;
+                }
+            }
+        }
+    }
+
+    if (!found) {
+        printf("Word not found\n");
+    }
+
+    return 0;
+}
